@@ -1,10 +1,23 @@
-<form class="navbar-form navbar-left" role="search" ng-show="moodlyUrl == ''">
-    <label for="interval">Interval:</label>
-    <div class="form-group">
-        <input type="number" id="interval" ng-model="moodly.interval" class="form-control">
+<div style="text-align:center">
+    <h1 style="margin-bottom:90px">Willkommen bei moodly,<br/>
+        dem Online-Happiness-Index f&uuml;r dein Team.
+        </h1>
+    <div style="margin-bottom:30px; font-size:20px">
+        <strong>Starte jetzt eine Abstimmung!</strong>
     </div>
-    <button type="submit" class="btn btn-default" ng-click="createMoodly()">Create your moodly now!</button>
-</form><!-- /input-group -->
-<div class="alert alert-success" ng-show="moodlyUrl != ''">
-    Vielen Dank, <a href="{{moodlyUrl}}">Ihr Moodly wurde erstellt.</a>
+    <div>
+        In welchem Zeitintervall sollen die Team-Mitglieder ihre Stimmung abgeben k&ouml;nnen?
+    </div>
+    <form class="navbar-form" ng-show="moodlyUrl == ''">
+        <div class="form-group">
+            Alle
+            <input type="number" id="interval" ng-model="moodly.interval" class="form-control intervalInput">
+            Tage.
+        </div>
+        <br/><br/>
+        <button type="submit" class="btn btn-default" ng-click="createMoodly()">Abstimmung erstellen</button>
+    </form>
+    <div class="alert alert-success" ng-show="moodlyUrl != ''">
+        Vielen Dank, <a href="{{moodlyUrl}}">Ihr Moodly wurde erstellt.</a>
+    </div>
 </div>

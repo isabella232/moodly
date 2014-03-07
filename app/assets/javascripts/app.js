@@ -6,6 +6,8 @@ require([ 'angular', 'angular-route', 'angular-resource' ], function (angular) {
 
     function MoodlyCtrl($scope, $http) {
         $scope.moodlyUrl = '';
+        $scope.moodly = {};
+        $scope.moodly.interval = 7;
         $scope.createMoodly = function(data) {
             $http.post('/rest/moodlies', {
                 intervalDays: parseInt($scope.moodly.interval)
