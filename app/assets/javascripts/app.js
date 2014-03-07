@@ -4,8 +4,10 @@
 
 require([ 'angular', 'angular-route', 'angular-resource' ], function (angular) {
 
-    function MoodlyCtrl($scope, $http) {
+    function MoodlyCtrl($scope, $http, $location) {
         $scope.moodlyUrl = '';
+        $scope.baseUrl = $location.protocol() + "://" + $location.host() + ":" + $location.port();
+        console.log($location);
         $scope.moodly = {};
         $scope.moodly.interval = 7;
         $scope.createMoodly = function(data) {
