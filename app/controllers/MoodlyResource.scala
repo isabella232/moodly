@@ -2,13 +2,15 @@ package controllers
 
 import play.api.mvc._
 import play.libs.Json
+import models.Moodlies
+import play.api.db.slick._
+import play.api.Play.current
 
 object MoodlyResource extends Controller {
 
-  def create = Action(parse.json) { request =>
-    val uuid = java.util.UUID.randomUUID.toString
-    val ts = System.currentTimeMillis / 1000
-    val intervall = (request.body \ "intervall").as[Int]
-    Ok(s"{'uuid': '$uuid'}")
+  def create = DBAction(parse.json) { implicit request =>
+    val moodly = new models.Moodly((request.body \ "intervalDays").as[Int])
+    Moodlies.insert(moodly)
+    Ok(s"{'uuid': '${moodly.id}'}")
   }
 }
