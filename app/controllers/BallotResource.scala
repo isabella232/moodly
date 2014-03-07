@@ -8,16 +8,18 @@ import play.api.libs.json.Json
 
 object BallotResource extends Controller {
 
-  def create = DBAction(parse.json) {
+  def create(moodlyId: String) = DBAction(parse.json) {
     implicit request =>
       Ok(Json.toJson("TODO"))
   }
 
-  def findById(id : String) = DBAction { implicit request =>
-    Ballots.findById(id.toLong).map { ballot =>
-      Ok(Json.toJson(ballot))
-    }.getOrElse {
-      NotFound(Json.toJson("Ballot not found"))
-    }
+  def findById(moodlyId: String, id: String) = DBAction {
+    implicit request =>
+      Ballots.findById(id.toLong).map {
+        ballot =>
+          Ok(Json.toJson(ballot))
+      }.getOrElse {
+        NotFound(Json.toJson("Ballot not found"))
+      }
   }
 }

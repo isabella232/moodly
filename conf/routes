@@ -8,9 +8,9 @@ GET         /                     controllers.Application.index
 GET         /webjars/*file        controllers.WebJarAssets.at(file)
 
 POST        /rest/moodlies        controllers.MoodlyResource.create
-GET         /rest/moodlies/*id    controllers.MoodlyResource.findById(id)
+GET         /rest/moodlies/:id    controllers.MoodlyResource.findById(id)
 
-POST        /rest/ballots         controllers.BallotResource.create
-GET         /rest/ballots/*id     controllers.BallotResource.findById(id)
+POST        /rest/moodlies/:moodlyId/ballots         controllers.BallotResource.create(moodlyId)
+GET         /rest/moodlies/:moodlyId/ballots/:id     controllers.BallotResource.findById(moodlyId, id)
 
 GET         /*file                controllers.Assets.at(path="/public", file)
