@@ -8,16 +8,33 @@ define('angular', ['webjars!angular.js', 'webjars!angular-route.js', 'webjars!an
 
 requirejs.config({
     shim: {
-        'webjars!angular-route.js': ['webjars!angular.js'],
-        'webjars!angular-resource.js': ['webjars!angular.js']
+        'webjars!angular.js': ['webjars!angular.js'],
+        'webjars!angular-route.js': ['webjars!angular-route.js'],
+        'webjars!angular-resource.js': ['webjars!angular-resource.js']
     }
 });
 
-require([ 'angular' ], function (angular) {
+require([ 'angular', 'views/moodlies' ], function (angular) {
+
+    function MoodlyCtrl($scope, $http) {
+        $scope.createMoodly = function(data) {
+            $http.post('/rest/moodlies', {
+                interval: $scope['moodly.interval']
+            }).success(function() {
+            });
+        };
+    }
 
     angular.module('moodly', ['ngRoute', 'ngResource' ]).
+        controller('MoodlyCtrl', ['$scope', function($scope) {
+            console.log('MoodlyCtrl');
+        }]).
         config(['$routeProvider', function ($routeProvider) {
-            $routeProvider.when('/votes', {templateUrl: '/config/projects', reloadOnSearch: false});
+            $routeProvider.when('/votes', {
+                templateUrl: '/views/moodlies.html',
+                controller: MoodlyCtrl,
+                reloadOnSearch: false
+            });
             $routeProvider.otherwise({redirectTo: '/'});
         }]);
 
