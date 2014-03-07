@@ -10,3 +10,5 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 GET           /lib/require.js                                                    controllers.WebJarAssets.requirejs
 GET           /webjars/*file                                                     controllers.WebJarAssets.at(file)
+
+POST           /rest/moodlies                                                     controllers.Moodly.newMoodly
