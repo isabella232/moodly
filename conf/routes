@@ -8,5 +8,7 @@ GET         /                     controllers.Application.index
 GET         /webjars/*file        controllers.WebJarAssets.at(file)
 
 POST        /rest/moodlies        controllers.MoodlyResource.create
+GET         /rest/moodlies/*id    controllers.MoodlyResource.findById(id)
+
 
 GET         /*file                controllers.Assets.at(path="/public", file)
