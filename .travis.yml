@@ -1,6 +1,10 @@
 language: scala
 scala:
-   - "2.10.3"
+- 2.10.3
 jdk:
-   - openjdk7
-   
+- openjdk7
+deploy:
+  provider: heroku
+  app: moodly-alpha
+  api_key:
+    secure: eLgZDV2UJpcR/cPWOeVGJ97p6vyLVRPtNQ2e7VzWqZ5JLCj2yYZrWvrkUxyHT5k1d7xjLoxQlmdmKjuGWMyT11aCDy3ahkyVQLr+24b39R/+JI5vPBUIBnB3Zuew8wtWxZ1qiyID4YJAI9C+TSQIHO/OfN2AWXbLPoxlOC2Nmy8=
