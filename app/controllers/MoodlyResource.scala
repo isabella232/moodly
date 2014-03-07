@@ -10,9 +10,13 @@ object MoodlyResource extends Controller {
 
   def create = DBAction(parse.json) {
     implicit request =>
-      val moodly = new models.Moodly((request.body \ "intervalDays").as[Int])
-      Moodlies.insert(moodly)
-      Ok(Json.toJson(moodly))
+      (request.body \ "intervalDays").asOpt[Int].map { intervalDays =>
+        val moodly = new models.Moodly(intervalDays)
+        Moodlies.insert(moodly)
+        Ok(Json.toJson(moodly))
+      }.getOrElse {
+        BadRequest("missing intervalDays")
+      }
   }
 
   def findById(id : String) = DBAction { implicit request =>
