@@ -2,24 +2,12 @@
 
 // Declare here that angular is the US version - other locales can be easily substituted.
 
-define('angular', ['webjars!angular.js', 'webjars!angular-route.js', 'webjars!angular-resource.js'], function () {
-    return angular;
-});
-
-requirejs.config({
-    shim: {
-        'webjars!angular.js': ['webjars!angular.js'],
-        'webjars!angular-route.js': ['webjars!angular-route.js'],
-        'webjars!angular-resource.js': ['webjars!angular-resource.js']
-    }
-});
-
-require([ 'angular', 'views/moodlies' ], function (angular) {
+require([ 'angular', 'angular-route', 'angular-resource' ], function (angular) {
 
     function MoodlyCtrl($scope, $http) {
         $scope.createMoodly = function(data) {
             $http.post('/rest/moodlies', {
-                interval: $scope['moodly.interval']
+                intervalDays: parseInt($scope.moodly.interval)
             }).success(function() {
             });
         };
@@ -31,7 +19,7 @@ require([ 'angular', 'views/moodlies' ], function (angular) {
         }]).
         config(['$routeProvider', function ($routeProvider) {
             $routeProvider.when('/votes', {
-                templateUrl: '/views/moodlies.html',
+                templateUrl: 'partials/moodlies.html',
                 controller: MoodlyCtrl,
                 reloadOnSearch: false
             });
