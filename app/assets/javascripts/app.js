@@ -5,12 +5,18 @@
 require([ 'angular', 'angular-route', 'angular-resource' ], function (angular) {
 
     function MoodlyCtrl($scope, $http) {
+        $scope.moodlyUrl = '';
         $scope.createMoodly = function(data) {
             $http.post('/rest/moodlies', {
                 intervalDays: parseInt($scope.moodly.interval)
-            }).success(function() {
+            }).success(function(data) {
+                $scope.moodlyUrl = '/moodly/' + data.id;
             });
         };
+    }
+
+    function VotesCtrl($scope) {
+        // show votes ...
     }
 
     angular.module('moodly', ['ngRoute', 'ngResource' ]).
@@ -18,9 +24,13 @@ require([ 'angular', 'angular-route', 'angular-resource' ], function (angular) {
             console.log('MoodlyCtrl');
         }]).
         config(['$routeProvider', function ($routeProvider) {
-            $routeProvider.when('/votes', {
+            $routeProvider.when('/', {
                 templateUrl: 'partials/moodlies.html',
                 controller: MoodlyCtrl,
+                reloadOnSearch: false
+            }).when('/votes', {
+                templateUrl: '',
+                controller: VotesCtrl,
                 reloadOnSearch: false
             });
             $routeProvider.otherwise({redirectTo: '/'});
