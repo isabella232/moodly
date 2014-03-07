@@ -12,6 +12,8 @@ import play.api.test.Helpers._
 @RunWith(classOf[JUnitRunner])
 class IntegrationSpec extends Specification {
 
+  skipAll
+
   "Application" should {
 
     "work from within a browser" in new WithBrowser {
