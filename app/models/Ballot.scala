@@ -8,8 +8,8 @@ import play.api.libs.json.JsNumber
 import play.api.libs.json
 
 case class Ballot(id: Long, moodlyId: String, cookieId: String, iterationCount: Int, vote: Int) {
-  def this(moodlyId: String, cookieId: String, iterationCount: Int, vote: Int) =
-    this(0, moodlyId, cookieId, iterationCount, vote)
+  def this(cookieId: String, iterationCount: Int, vote: Int) =
+    this(0, "", cookieId, iterationCount, vote)
 }
 
 object Ballot {
@@ -22,11 +22,10 @@ object Ballot {
       "vote" -> JsNumber(ballot.vote)))
 
     override def reads(json: JsValue): JsResult[Ballot] = {
-      val moodlyId = (json \ "moodlyId").as[String]
       val cookieId = (json \ "cookieId").as[String]
       val iterationCount = (json \ "iterationCount").as[Int]
       val vote = (json \ "vote").as[Int]
-      JsSuccess(new Ballot(moodlyId, cookieId, iterationCount, vote))
+      JsSuccess(new Ballot(cookieId, iterationCount, vote))
     }
   }
 

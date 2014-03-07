@@ -11,8 +11,8 @@ object BallotResource extends Controller {
   def create(moodlyId: String) = DBAction(parse.json) {
     implicit request =>
       Json.fromJson[Ballot](request.body).asOpt.map { ballot =>
-        val ballotId = Ballots.insert(ballot)
-        Ok(Json.toJson(Ballot(ballotId, ballot.moodlyId, ballot.cookieId, ballot.iterationCount, ballot.vote)))
+        val ballotId = Ballots.insert(Ballot(0, moodlyId, ballot.cookieId, ballot.iterationCount, ballot.vote))
+        Ok(Json.toJson(Ballot(ballotId, moodlyId, ballot.cookieId, ballot.iterationCount, ballot.vote)))
       }.getOrElse {
         BadRequest(Json.toJson("Failed to parse json"))
       }
