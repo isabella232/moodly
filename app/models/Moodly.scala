@@ -27,13 +27,15 @@ class Moodlies(tag: Tag) extends Table[Moodly](tag, "MOODLY") {
 
   def intervalDays = column[Int]("INTERVAL_DAYS", O.NotNull)
 
-  def * = (id, start, intervalDays) <>( {
-    row: (String, Timestamp, Int) => Moodly(row._1, row._2, row._3)
-  }, Moodly.unapply _)
+  def * = (id, start, intervalDays) <>((Moodly.apply _).tupled, Moodly.unapply _)
 }
 
 object Moodlies {
   val moodlies = TableQuery[Moodlies]
+
+  def findById(id: String)(implicit s: Session): Option[Moodly] = {
+    moodlies.where(_.id === id).firstOption
+  }
 
   def insert(moodly: Moodly)(implicit s: Session) {
     moodlies.insert(moodly)
