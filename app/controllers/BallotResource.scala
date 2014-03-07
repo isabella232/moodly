@@ -1,7 +1,7 @@
 package controllers
 
 import play.api.mvc._
-import models.{Ballots, Moodly, Moodlies}
+import models.{Ballot, Ballots, Moodly, Moodlies}
 import play.api.db.slick._
 import play.api.Play.current
 import play.api.libs.json.Json
@@ -10,7 +10,12 @@ object BallotResource extends Controller {
 
   def create(moodlyId: String) = DBAction(parse.json) {
     implicit request =>
-      Ok(Json.toJson("TODO"))
+      Json.fromJson[Ballot](request.body).asOpt.map { ballot =>
+        val ballotId = Ballots.insert(ballot)
+        Ok(Json.toJson(Ballot(ballotId, ballot.moodlyId, ballot.cookieId, ballot.iterationCount, ballot.vote)))
+      }.getOrElse {
+        BadRequest(Json.toJson("Failed to parse json"))
+      }
   }
 
   def findById(moodlyId: String, id: String) = DBAction {
