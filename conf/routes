@@ -10,5 +10,7 @@ GET         /webjars/*file        controllers.WebJarAssets.at(file)
 POST        /rest/moodlies        controllers.MoodlyResource.create
 GET         /rest/moodlies/*id    controllers.MoodlyResource.findById(id)
 
+POST        /rest/ballots         controllers.BallotResource.create
+GET         /rest/ballots/*id     controllers.BallotResource.findById(id)
 
 GET         /*file                controllers.Assets.at(path="/public", file)
