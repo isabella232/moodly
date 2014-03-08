@@ -20,12 +20,12 @@ object Moodly {
 
 }
 
-class Moodlies(tag: Tag) extends Table[Moodly](tag, "MOODLY") {
-  def id = column[String]("ID", O.PrimaryKey)
+class Moodlies(tag: Tag) extends Table[Moodly](tag, "moodly") {
+  def id = column[String]("id", O.PrimaryKey)
 
-  def start = column[Timestamp]("START", O.NotNull)
+  def start = column[Timestamp]("start", O.NotNull)
 
-  def intervalDays = column[Int]("INTERVAL_DAYS", O.NotNull)
+  def intervalDays = column[Int]("interval_days", O.NotNull)
 
   def * = (id, start, intervalDays) <>((Moodly.apply _).tupled, Moodly.unapply _)
 }

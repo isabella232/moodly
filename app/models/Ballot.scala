@@ -31,20 +31,20 @@ object Ballot {
 
 }
 
-class Ballots(tag: Tag) extends Table[Ballot](tag, "BALLOT") {
-  def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
+class Ballots(tag: Tag) extends Table[Ballot](tag, "ballot") {
+  def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 
-  def moodlyId = column[String]("MOODLY_ID", O.NotNull)
+  def moodlyId = column[String]("moodly_id", O.NotNull)
 
-  def cookieId = column[String]("COOKIE_ID", O.NotNull)
+  def cookieId = column[String]("cookie_id", O.NotNull)
 
-  def iterationCount = column[Int]("ITERATION_COUNT", O.NotNull)
+  def iterationCount = column[Int]("iteration_count", O.NotNull)
 
-  def vote = column[Int]("VOTE", O.NotNull)
+  def vote = column[Int]("note", O.NotNull)
 
   def * = (id, moodlyId, cookieId, iterationCount, vote) <>((Ballot.apply _).tupled, Ballot.unapply _)
 
-  def moodly = foreignKey("MOOLY_FK", moodlyId, Moodlies.moodlies)(_.id)
+  def moodly = foreignKey("moodly_fk", moodlyId, Moodlies.moodlies)(_.id)
 }
 
 object Ballots {
