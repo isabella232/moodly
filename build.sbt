@@ -20,3 +20,5 @@ libraryDependencies ++= Seq(
 play.Project.playScalaSettings
 
 JavaScriptBuild.javaScriptUiSettings
+
+testOptions in Test += Tests.Argument("junitxml", "console")
