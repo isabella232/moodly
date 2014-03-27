@@ -3,6 +3,8 @@ scala:
 - 2.10.3
 jdk:
 - openjdk7
+node_js:
+- 0.10
 deploy:
   provider: heroku
   app: moodly-alpha

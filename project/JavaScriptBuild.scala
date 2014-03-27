@@ -3,11 +3,15 @@ import sbt._
 import sbt.Keys._
 import play.PlayRunHook
 import play.Project._
+import scala.Some
+import scala.languageFeature.postfixOps
 
 object JavaScriptBuild {
   val uiDirectory = SettingKey[File]("ui-directory")
 
-  val npmInstall = TaskKey[Unit]("npm-install")
+  val npmInstall = TaskKey[File]("npm-install")
+
+  val gulpBuild = TaskKey[Unit]("gulp-build")
 
   val javaScriptUiSettings = Seq(
 
@@ -16,16 +20,29 @@ object JavaScriptBuild {
       _ / "ui"
     },
 
-    npmInstall <<= (uiDirectory) map {
-      (base) =>
+    npmInstall <<= (uiDirectory, streams) map {
+      (base, s) =>
+        s.log.info("Run 'npm install'")
         val exitCode = npmProcess(base, "install").run().exitValue()
 
         if (exitCode != 0) {
           sys.error(s"npm install failed with exitCode=$exitCode}")
         }
+        base
     },
 
-//    playRunHooks <+= uiDirectory.map(ui => gulpRunHook(ui)),
+    gulpBuild <<= (npmInstall, streams) map {
+      (base, s) =>
+        s.log.info("Run 'gulp'")
+        val exitCode = gulpProcess(base).run().exitValue()
+
+        if (exitCode != 0) {
+          sys.error(s"gulp build failed with exitCode=$exitCode}")
+        }
+    },
+    playRunHooks <+= npmInstall.map(ui => gulpRunHook(ui)),
+
+    test in Test <<= (test in Test).dependsOn(gulpBuild),
 
     // add "npm" commands in sbt
     commands <++= uiDirectory {
@@ -45,21 +62,21 @@ object JavaScriptBuild {
 
   def gulpRunHook(base: File): PlayRunHook = new PlayRunHook {
 
-      var process: Option[Process] = None
+    var process: Option[Process] = None
 
-      override def afterStarted(addr: InetSocketAddress): Unit = {
-        // call grunt to generate public assets
-        gulpProcess(base).run()
-        // watch for modifications
-        process = Some(gulpProcess(base, "watch").run())
-      }
-
-      override def afterStopped(): Unit = {
-        // Stop grunt when play run stops
-        process.map(p => p.destroy())
-        process = None
-      }
-
+    override def afterStarted(addr: InetSocketAddress): Unit = {
+      // call grunt to generate public assets
+      gulpProcess(base).run()
+      // watch for modifications
+      process = Some(gulpProcess(base, "watch").run())
     }
+
+    override def afterStopped(): Unit = {
+      // Stop grunt when play run stops
+      process.map(p => p.destroy())
+      process = None
+    }
+
+  }
 
 }
