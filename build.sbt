@@ -15,3 +15,5 @@ libraryDependencies ++= Seq(
 )     
 
 play.Project.playScalaSettings
+
+JavaScriptBuild.javaScriptUiSettings

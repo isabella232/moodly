@@ -14,3 +14,5 @@ dist
 /RUNNING_PID
 /.settings
 *.db
+/ui/node_modules
+/public/react
