@@ -3,7 +3,7 @@ import sbt._
 import sbt.Keys._
 import play.PlayRunHook
 import play.Project._
-import scala.Some
+import com.typesafe.sbt.packager.Keys._
 import scala.languageFeature.postfixOps
 
 object JavaScriptBuild {
@@ -44,6 +44,8 @@ object JavaScriptBuild {
 
     test in Test <<= (test in Test).dependsOn(gulpBuild),
 
+    stage <<= stage.dependsOn(gulpBuild),
+  
     // add "npm" commands in sbt
     commands <++= uiDirectory {
       base => Seq(npmCommand(base))
