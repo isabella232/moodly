@@ -16,3 +16,4 @@ dist
 *.db
 /ui/node_modules
 /public/react
+/node_modules
