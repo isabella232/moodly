@@ -1,7 +1,10 @@
+moodly
+======
+
+## CI
+
 Travis: [![Build Status](https://travis-ci.org/leanovate/moodly.png?branch=master)](https://travis-ci.org/leanovate/moodly)
 
+## License
 
-This is your new Play application
-=====================================
-
-This file will be packaged with your application, when using `play dist`.
+[MIT](http://opensource.org/licenses/MIT)
