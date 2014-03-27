@@ -42,10 +42,10 @@ object JavaScriptBuild {
     },
     playRunHooks <+= npmInstall.map(ui => gulpRunHook(ui)),
 
-    test in Test <<= (test in Test).dependsOn(gulpBuild),
+//    test in Test <<= (test in Test).dependsOn(gulpBuild),
 
-    stage <<= stage.dependsOn(gulpBuild),
-  
+//    stage <<= stage.dependsOn(gulpBuild),
+
     // add "npm" commands in sbt
     commands <++= uiDirectory {
       base => Seq(npmCommand(base))
