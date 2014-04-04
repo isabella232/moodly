@@ -11,13 +11,21 @@
         @Html(org.webjars.play.RequireJS.setup("javascripts/app"))
     </head>
     <body>
+
+        <div class="header">
+            <img class="leanovate-logo" src="/images/leanovateLogo.jpg">
+            <img class="moodly-logo" src="/images/Logo.png">
+        </div>
+
         <div id="wrap">
             <div class="container">
                 @content
             </div>
         </div>
-        <div style="text-align:center; margin-top:60px">
+
+        <div class="footer" style="text-align:center; margin-top:60px">
             <a href="http://www.leanovate.de/about/impressum/" target="_blank">Impressum</a>
         </div>
+
     </body>
 </html>

@@ -23,9 +23,8 @@ object Ballot {
 
     override def reads(json: JsValue): JsResult[Ballot] = {
       val cookieId = (json \ "cookieId").as[String]
-      val iterationCount = (json \ "iterationCount").as[Int]
       val vote = (json \ "vote").as[Int]
-      JsSuccess(new Ballot(cookieId, iterationCount, vote))
+      JsSuccess(new Ballot(cookieId, 0, vote))
     }
   }
 
@@ -57,4 +56,8 @@ object Ballots {
   def findById(id: Long)(implicit s: Session): Option[Ballot] = {
     ballots.where(_.id === id).firstOption
   }
+
+  def findByMoodlyId(moodlyId: String)(implicit s: Session): List[Ballot] = {
+      ballots.where(_.moodlyId === moodlyId).list
+    }
 }

@@ -10,11 +10,16 @@ object BallotResource extends Controller {
 
   def create(moodlyId: String) = DBAction(parse.json) {
     implicit request =>
-      Json.fromJson[Ballot](request.body).asOpt.map { ballot =>
-        val ballotId = Ballots.insert(Ballot(0, moodlyId, ballot.cookieId, ballot.iterationCount, ballot.vote))
-        Ok(Json.toJson(Ballot(ballotId, moodlyId, ballot.cookieId, ballot.iterationCount, ballot.vote)))
+      Moodlies.findById(moodlyId).map { moodly =>
+          val iC = moodly.currentIterationCount
+          Json.fromJson[Ballot](request.body).asOpt.map { ballot =>
+            val ballotId = Ballots.insert(Ballot(0, moodlyId, ballot.cookieId, iC, ballot.vote))
+            Ok(Json.toJson(Ballot(ballotId, moodlyId, ballot.cookieId, iC, ballot.vote)))
+          }.getOrElse {
+            BadRequest(Json.toJson("Failed to parse json"))
+          }
       }.getOrElse {
-        BadRequest(Json.toJson("Failed to parse json"))
+        BadRequest(Json.toJson("No moodly found for given id"))
       }
   }
 
@@ -27,4 +32,9 @@ object BallotResource extends Controller {
         NotFound(Json.toJson("Ballot not found"))
       }
   }
+
+  def findByMoodlyId(moodlyId: String) = DBAction {
+      implicit request =>
+        Ok(Json.toJson(Ballots.findByMoodlyId(moodlyId)))
+    }
 }
