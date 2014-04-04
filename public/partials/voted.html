@@ -10,7 +10,7 @@
         = {{ballot}}
     </p>
     <p>
-        In dieser Iteration haben insgesamt TODO Personen bisher ihre Stimmung abgegeben.
+        In dieser Iteration haben bisher insgesamt {{personCount}} Personen bisher ihre Stimmung abgegeben.
     </p>
     <p>
         Der Stimmungsdurchschnitt ist:<br>
@@ -20,5 +20,7 @@
         <img ng-show="avg >= 3.5 && avg < 4.5" src="/images/4-fine.png">
         <img ng-show="avg >= 5" src="/images/5-happy.png">
         = {{avg}}
+
+
     </p>
 </div>

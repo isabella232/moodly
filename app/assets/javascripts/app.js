@@ -30,7 +30,7 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], fu
             console.log(cookie);
             if (cookie.currentIterationCount == data[0]) {
                 console.log("user has cookie!");
-                $window.location.hash = "/voted/" + $routeParams.id;
+                //$window.location.hash = "/voted/" + $routeParams.id;
             }
 
             // TODO: this is a minor race condition
@@ -66,6 +66,10 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], fu
             $scope.avg = Math.round((data.reduce(function(acc, b) {
                 return acc + (b.iterationCount == cIC ? b.vote : 0)
             }, 0) / data.length) * 100) / 100;
+
+            $scope.personCount = (data.reduce(function(acc, b) {
+                return acc + (b.iterationCount == cIC ? 1 : 0)
+            }, 0));
         });
     }
 
