@@ -27,6 +27,8 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], fu
 
     function VotingCtrl($scope, $routeParams, $resource, $cookieStore, $window, CookieService) {
 
+        $scope.moodlyId = $routeParams.id;
+
         $resource('/rest/moodlies/:moodlyId/currentIterationCount', {moodlyId:$routeParams.id}).get(function(data) {
             console.log("currentIterationCount=" + data[0]);
             var cookieKey = "moodly-" + $routeParams.id;
@@ -54,6 +56,7 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], fu
 
     function VotedCtrl($scope, $routeParams, $resource, CookieService) {
         $scope.ballot = CookieService.get($routeParams.id).ballot;
+        $scope.moodlyId = $routeParams.id;
 
         var Ballot = $resource('/rest/moodlies/:moodlyId/ballots', {moodlyId:$routeParams.id},
                 {
@@ -75,6 +78,14 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], fu
                 return acc + (b.iterationCount == cIC ? 1 : 0)
             }, 0));
         });
+    }
+
+    function StatsCtrl($scope, $routeParams, $resource) {
+
+    }
+
+    function StatsConfigCtrl($scope, $routeParams, $resource) {
+
     }
 
     angular.module('moodly', ['ngRoute', 'ngResource', 'ngCookies' ]);
@@ -103,6 +114,14 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], fu
         }).when('/voted/:id', {
             templateUrl: 'partials/voted.html',
             controller: VotedCtrl,
+            reloadOnSearch: false
+        }).when('/stats_config/:id', {
+            templateUrl: 'partials/stats_config.html',
+            controller: StatsConfigCtrl,
+            reloadOnSearch: false
+        }).when('/stats/:id', {
+            templateUrl: 'partials/stats.html',
+            controller: StatsCtrl,
             reloadOnSearch: false
         }).otherwise({redirectTo: '/'});
     }]);
