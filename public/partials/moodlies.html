@@ -8,14 +8,21 @@
     <div>
         In welchem Zeitintervall sollen die Team-Mitglieder ihre Stimmung abgeben k&ouml;nnen?
     </div>
-    <form class="navbar-form">
+    <form name="interval_form" class="navbar-form">
         <div class="form-group">
             Alle
-            <input type="text" id="interval" ng-model="moodly.interval" class="form-control intervalInput">
+            <input type="text" id="interval" name="interval" ng-model="moodly.interval" class="form-control intervalInput"
+                   required ng-pattern="/^[1-9][0-9]*$/">
             Tage.
+            <small class="error"
+                   ng-show="interval_form.interval.$invalid">
+                <br>Interval muss > 0 sein.
+            </small>
         </div>
         <br/><br/>
-        <button type="submit" class="btn btn-default" ng-click="createMoodly()">Abstimmung erstellen</button>
+        <button type="submit" class="btn btn-default" ng-click="createMoodly()">
+            Abstimmung erstellen
+        </button>
     </form>
 </div>
 

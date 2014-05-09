@@ -12,10 +12,14 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], fu
         $scope.moodly = {};
         $scope.moodly.interval = 7;
         $scope.createMoodly = function(data) {
+            console.log($scope.moodly.interval);
+            if (!$scope.moodly.interval || parseInt($scope.moodly.interval) < 1) {
+                //console.log(interval_form.interval.$error);
+                return;
+            }
             $http.post('/rest/moodlies', {
                 intervalDays: parseInt($scope.moodly.interval)
             }).success(function(data) {
-                //$scope.moodlyUrl = '/#/voting/' + data.id;
                 $scope.moodlyUrl = '/#/voting/' + data.id;
             });
         };

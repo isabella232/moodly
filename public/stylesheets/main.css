@@ -38,3 +38,11 @@
     margin-top: 60px;
     margin-bottom: 50px;
 }
+
+input.ng-invalid {
+  border: 1px solid red;
+}
+
+.error {
+  color: red;
+}
