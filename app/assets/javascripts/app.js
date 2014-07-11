@@ -33,32 +33,43 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], fu
         $scope.moodlyId = $routeParams.id;
 
         $resource('/rest/moodlies/:moodlyId/currentIterationCount', {moodlyId:$routeParams.id}).get(function(data) {
-            console.log("currentIterationCount=" + data[0]);
+            var currentIterationCount = data[0];
+            console.log("currentIterationCount=" + currentIterationCount);
             var cookieKey = "moodly-" + $routeParams.id;
             var cookie = ($cookieStore.get(cookieKey)) ? JSON.parse($cookieStore.get(cookieKey)) : {};
             console.log(cookie);
-            if (cookie.currentIterationCount == data[0]) {
+            if (cookie.currentIterationCount == currentIterationCount) {
                 console.log("user has cookie!");
-                //$window.location.hash = "/voted/" + $routeParams.id;
+                $window.location.hash = "/alreadyvoted/" + $routeParams.id;
+            } else {
+
+                // TODO: this is a minor race condition
+                $scope.vote = function (ballot) {
+                    var cookieId = Math.random();
+                    var Ballot = $resource('/rest/moodlies/:moodlyId/ballots', {moodlyId: $routeParams.id}, {});
+
+                    CookieService.put($routeParams.id, {cookieId: cookieId, ballot: ballot, currentIterationCount: parseInt(data[0], 10)});
+
+                    Ballot.save({cookieId: cookieId.toString(), vote: ballot});
+                    console.log(ballot);
+                    $window.location.hash = "/voted/" + $routeParams.id;
+                };
             }
-
-            // TODO: this is a minor race condition
-            $scope.vote = function(ballot) {
-                var cookieId = Math.random();
-                var Ballot = $resource('/rest/moodlies/:moodlyId/ballots', {moodlyId:$routeParams.id},{});
-
-                CookieService.put($routeParams.id, {cookieId:cookieId, ballot:ballot, currentIterationCount:parseInt(data[0], 10)});
-
-                Ballot.save({cookieId:cookieId.toString(), vote:ballot});
-                console.log(ballot);
-                $window.location.hash = "/voted/" + $routeParams.id;
-            };
         });
 
     }
 
+    function AlreadyVotedCtrl($scope, $routeParams, $resource, CookieService) {
+        VotedCtrlInternal($scope, $routeParams, $resource, CookieService, true)
+    }
+
     function VotedCtrl($scope, $routeParams, $resource, CookieService) {
+        VotedCtrlInternal($scope, $routeParams, $resource, CookieService, false)
+    }
+
+    function VotedCtrlInternal($scope, $routeParams, $resource, CookieService, alreadyVoted) {
         $scope.ballot = CookieService.get($routeParams.id).ballot;
+        $scope.alreadyVoted = alreadyVoted;
         $scope.moodlyId = $routeParams.id;
 
         var Ballot = $resource('/rest/moodlies/:moodlyId/ballots', {moodlyId:$routeParams.id},
@@ -117,6 +128,10 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], fu
         }).when('/voted/:id', {
             templateUrl: 'partials/voted.html',
             controller: VotedCtrl,
+            reloadOnSearch: false
+        }).when('/alreadyvoted/:id', {
+            templateUrl: 'partials/voted.html',
+            controller: AlreadyVotedCtrl,
             reloadOnSearch: false
         }).when('/stats_config/:id', {
             templateUrl: 'partials/stats_config.html',
