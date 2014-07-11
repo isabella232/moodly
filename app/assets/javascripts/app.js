@@ -7,7 +7,10 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], fu
     function MoodlyCtrl($scope, $http, $location) {
         console.log('MoodlyCtrl');
         $scope.moodlyUrl = '';
-        $scope.baseUrl = $location.protocol() + "://" + $location.host() + ":" + $location.port();
+        $scope.baseUrl = $location.protocol() + "://" + $location.host();
+        if ($location.port() != "80") {
+            $scope.baseUrl += ":" + $location.port();
+        }
         console.log($location);
         $scope.moodly = {};
         $scope.moodly.interval = 7;
