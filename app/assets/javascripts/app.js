@@ -68,11 +68,12 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], fu
     }
 
     function VotedCtrlInternal($scope, $routeParams, $resource, CookieService, alreadyVoted) {
+        var moodlyId = $routeParams.id;
         $scope.ballot = CookieService.get($routeParams.id).ballot;
         $scope.alreadyVoted = alreadyVoted;
-        $scope.moodlyId = $routeParams.id;
+        $scope.moodlyId = moodlyId;
 
-        var Ballot = $resource('/rest/moodlies/:moodlyId/ballots', {moodlyId:$routeParams.id},
+        var Ballot = $resource('/rest/moodlies/:moodlyId/ballots', {moodlyId: moodlyId},
                 {
                     get : {
                       method: 'GET',
@@ -81,21 +82,58 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], fu
                 }
         );
 
-        Ballot.get(function(data) {
+        Ballot.get(function(ballots) {
             var cIC = CookieService.get($routeParams.id).currentIterationCount;
-            console.log(data);
-            $scope.avg = Math.round((data.reduce(function(acc, b) {
-                return acc + (b.iterationCount == cIC ? b.vote : 0)
-            }, 0) / data.length) * 100) / 100;
+            console.log(ballots);
+            // calculate the average for one iteration
+            $scope.avg = averageVote(ballots, cIC);
 
-            $scope.personCount = (data.reduce(function(acc, b) {
-                return acc + (b.iterationCount == cIC ? 1 : 0)
-            }, 0));
+            $scope.personCount = numberOfPersonForIteration(ballots, cIC);
         });
     }
 
-    function StatsCtrl($scope, $routeParams, $resource) {
+    function averageVote(ballots, iterationCount) {
+        return Math.round((ballots.reduce(function(acc, b) {
+            return acc + (b.iterationCount == iterationCount ? b.vote : 0)
+        }, 0) / ballots.length) * 100) / 100;
+    }
 
+    function numberOfPersonForIteration(ballots, iterationCount) {
+        return (ballots.reduce(function(acc, b) {
+            return acc + (b.iterationCount == iterationCount ? 1 : 0)
+        }, 0));
+    }
+
+    function StatsCtrl($scope, $routeParams, $resource) {
+        var moodlyId = $routeParams.id;
+        $scope.moodlyId = moodlyId;
+        var Ballot = $resource('/rest/moodlies/:moodlyId/ballots', {moodlyId: moodlyId},
+            {
+                get : {
+                    method: 'GET',
+                    isArray: true
+                }
+            }
+        );
+
+        Ballot.get(function(ballots) {
+            var iterations = [];
+            ballots.map(function(b) {
+                var it = b.iterationCount;
+                if (iterations.indexOf(it) == -1) {
+                    iterations.push(it)
+                }
+            });
+            var stats = iterations.map(function(it) {
+               return {
+                   "iteration": it,
+                   "average": averageVote(ballots, it),
+                   "personsCount": numberOfPersonForIteration(ballots, it)
+               }
+            });
+            console.log(stats);
+            $scope.stats = stats;
+        });
     }
 
     function StatsConfigCtrl($scope, $routeParams, $resource) {
