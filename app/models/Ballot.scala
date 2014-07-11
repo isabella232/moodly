@@ -39,7 +39,7 @@ class Ballots(tag: Tag) extends Table[Ballot](tag, "ballot") {
 
   def iterationCount = column[Int]("iteration_count", O.NotNull)
 
-  def vote = column[Int]("note", O.NotNull)
+  def vote = column[Int]("vote", O.NotNull)
 
   def * = (id, moodlyId, cookieId, iterationCount, vote) <>((Ballot.apply _).tupled, Ballot.unapply _)
 
