@@ -15,6 +15,7 @@ object Global extends GlobalSettings {
 
       play.api.db.slick.DB(app).withTransaction { implicit session =>
         Moodlies.insert(moodly)
+        Logger.debug(s"inserted moodly $moodly")
         for (i <- 0 to 20) {
           val cookieId = s"test-participant-$i"
           val iteration = Random.nextInt(20)

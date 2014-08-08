@@ -1,16 +1,21 @@
 package models
 
+import java.util.Date
+
+import org.joda.time.DateMidnight
 import play.api.db.slick.Config.driver.simple._
 import java.sql.Timestamp
 import tyrex.services.UUID
 import play.api.libs.json.{JsNumber, JsString, JsObject, Writes}
 
 case class Moodly(id: String, start: Timestamp, intervalDays: Int) {
-  def this(intervalDays: Int) = this(UUID.create(), new Timestamp(System.currentTimeMillis()), intervalDays)
+  def this(intervalDays: Int) = this(UUID.create(), new Timestamp(Moodly.dateBegin().getTime), intervalDays)
   def currentIterationCount = ((System.currentTimeMillis - start.getTime) / (intervalDays * 1000 * 60 * 60 * 24)).toInt
 }
 
 object Moodly {
+
+  def dateBegin(): Date = new DateMidnight().toDate
 
   implicit object MoodlyWrites extends Writes[Moodly] {
     override def writes(moodly: Moodly) = JsObject(Seq(
