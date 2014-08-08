@@ -93,9 +93,13 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
     }
 
     function averageVote(ballots, iterationCount) {
-        return Math.round((ballots.reduce(function(acc, b) {
-            return acc + (b.iterationCount == iterationCount ? b.vote : 0)
-        }, 0) / ballots.length) * 100) / 100;
+        var ballotsForIteration = _.filter(ballots, function(b) {
+           return b.iterationCount == iterationCount
+        });
+        var sum = ballotsForIteration.reduce(function(acc, b) {
+            return acc + b.vote
+        }, 0);
+        return Math.round((sum / ballotsForIteration.length) * 100) / 100;
     }
 
     function numberOfPersonForIteration(ballots, iterationCount) {
