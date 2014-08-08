@@ -24,6 +24,7 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
                 intervalDays: parseInt($scope.moodly.interval)
             }).success(function(data) {
                 $scope.moodlyUrl = '/#/voting/' + data.id;
+                $scope.statsUrl = '/#/stats/' + data.id;
             });
         };
     }
