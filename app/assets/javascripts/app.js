@@ -2,7 +2,7 @@
 
 // Declare here that angular is the US version - other locales can be easily substituted.
 
-require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies'], function (angular) {
+require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'underscorejs'], function (angular) {
 
     function MoodlyCtrl($scope, $http, $location) {
         console.log('MoodlyCtrl');

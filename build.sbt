@@ -13,6 +13,7 @@ libraryDependencies ++= Seq(
   "org.webjars" %% "webjars-play" % "2.2.1-2",
   "org.webjars" % "angularjs" % "1.2.13",
   "org.webjars" % "bootstrap" % "3.0.2",
+  "org.webjars" % "underscorejs" % "1.6.0-3",
   "postgresql" % "postgresql" % "9.1-901-1.jdbc4",
   "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.0.4" % "test"
 )
