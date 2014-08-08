@@ -124,13 +124,20 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
         );
     }
 
-    function StatsCtrl($scope, $routeParams, $resource) {
+    function StatsCtrl($scope, $routeParams, $resource, $q) {
         var moodlyId = $routeParams.id;
         $scope.moodlyId = moodlyId;
-        var Ballot = ballotResource($resource, moodlyId);
-        var Moddly = moodlyResource($resource, moodlyId);
 
-        Ballot.get(function(ballots) {
+        $q.all([
+            ballotResource($resource, moodlyId).get().$promise,
+            moodlyResource($resource, moodlyId).get().$promise
+        ]).then(function(data) {
+            var ballots = data[0];
+            var moodly = data[1];
+
+            $scope.intervalDays = moodly.intervalDays;
+            var start = new Date(moodly.start);
+
             var stats = [],
                 max = _.max(_.map(ballots, function(b) {
                     return b.iterationCount;
@@ -139,16 +146,21 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
             for (var it = 0; it <= max; it++) {
                 stats[it] = {
                     "iteration": it,
+                    "startDate": addDays(start, it * moodly.intervalDays),
+                    "endDate": addDays(start, (it + 1) * moodly.intervalDays),
                     "average": averageVote(ballots, it),
                     "personsCount": numberOfPersonForIteration(ballots, it)
                 };
             }
             $scope.stats = stats;
-        });
 
-        Moddly.get(function(moodly) {
-            $scope.intervalDays = moodly.intervalDays;
         });
+    }
+
+    function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(date.getDate() + days);
+        return result;
     }
 
     function StatsConfigCtrl($scope, $routeParams, $resource) {

@@ -6,12 +6,14 @@
         <thead>
             <tr>
                 <th>Iteration-Nr.</th>
+                <th>Iterations-Ende</th>
                 <th>Durchschnitt</th>
                 <th>Anzahl der abgegebenen Stimmungen</th>
             </tr>
         </thead>
         <tr ng-repeat="stat in stats">
             <td>{{stat.iteration + 1}}</td>
+            <td>{{stat.endDate | date: 'dd.MM.yy'}}</td>
             <td>{{stat.average}}&nbsp;&nbsp;
                 <span ng-show="stat.average">
                     <img ng-show="stat.average >= 0 && stat.average < 1.5" src="/images/1-frustrated.png">
