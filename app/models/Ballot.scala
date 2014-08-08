@@ -7,7 +7,20 @@ import play.api.libs.json.JsString
 import play.api.libs.json.JsNumber
 import play.api.libs.json
 
+/**
+ *
+ * @param id technical ID
+ * @param moodlyId moodly technical ID - reference to [[Moodly.id]]
+ * @param cookieId cookieID, track an unique user. One user can vote only one time for one iteration
+ * @param iterationCount current iteration, based on [[Moodly.start]] and [[Moodly.intervalDays]]
+ * @param vote the vote: from 1 (frustrated) to 5 (happy)
+ */
 case class Ballot(id: Long, moodlyId: String, cookieId: String, iterationCount: Int, vote: Int) {
+
+  assume(iterationCount >= 0)
+  assume(vote >= 1) // frustrated
+  assume(vote <= 5) // happy
+
   def this(cookieId: String, iterationCount: Int, vote: Int) =
     this(0, "", cookieId, iterationCount, vote)
 }
