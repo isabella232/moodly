@@ -12,11 +12,13 @@
         <tr ng-repeat="stat in stats">
             <td>{{stat.iteration + 1}}</td>
             <td>{{stat.average}}&nbsp;&nbsp;
-                <img ng-show="stat.average >= 0 && stat.average < 1.5" src="/images/1-frustrated.png">
-                <img ng-show="stat.average >= 1.5 && stat.average < 2.5" src="/images/2-sad.png">
-                <img ng-show="stat.average >= 2.5 && stat.average < 3.5" src="/images/3-neutral.png">
-                <img ng-show="stat.average >= 3.5 && stat.average < 4.5" src="/images/4-fine.png">
-                <img ng-show="stat.average >= 5" src="/images/5-happy.png">
+                <span ng-show="stat.average">
+                    <img ng-show="stat.average >= 0 && stat.average < 1.5" src="/images/1-frustrated.png">
+                    <img ng-show="stat.average >= 1.5 && stat.average < 2.5" src="/images/2-sad.png">
+                    <img ng-show="stat.average >= 2.5 && stat.average < 3.5" src="/images/3-neutral.png">
+                    <img ng-show="stat.average >= 3.5 && stat.average < 4.5" src="/images/4-fine.png">
+                    <img ng-show="stat.average >= 5" src="/images/5-happy.png">
+                </span>
             </td>
             <td>{{stat.personsCount}}</td>
         </tr>

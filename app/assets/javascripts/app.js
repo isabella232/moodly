@@ -96,10 +96,13 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
         var ballotsForIteration = _.filter(ballots, function(b) {
            return b.iterationCount == iterationCount
         });
-        var sum = ballotsForIteration.reduce(function(acc, b) {
-            return acc + b.vote
-        }, 0);
-        return Math.round((sum / ballotsForIteration.length) * 100) / 100;
+
+        if (ballotsForIteration.length !== 0) {
+            var sum = ballotsForIteration.reduce(function (acc, b) {
+                return acc + b.vote
+            }, 0);
+            return Math.round((sum / ballotsForIteration.length) * 100) / 100;
+        } else return null;
     }
 
     function numberOfPersonForIteration(ballots, iterationCount) {
@@ -121,21 +124,18 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
         );
 
         Ballot.get(function(ballots) {
-            var iterations = [];
-            ballots.map(function(b) {
-                var it = b.iterationCount;
-                if (iterations.indexOf(it) == -1) {
-                    iterations.push(it)
-                }
-            });
-            var stats = iterations.map(function(it) {
-               return {
-                   "iteration": it,
-                   "average": averageVote(ballots, it),
-                   "personsCount": numberOfPersonForIteration(ballots, it)
-               }
-            });
-            console.log(stats);
+            var stats = [],
+                max = _.max(_.map(ballots, function(b) {
+                    return b.iterationCount;
+                }));
+
+            for (var it = 0; it < max; it++) {
+                stats[it] = {
+                    "iteration": it,
+                    "average": averageVote(ballots, it),
+                    "personsCount": numberOfPersonForIteration(ballots, it)
+                };
+            }
             $scope.stats = stats;
         });
     }
