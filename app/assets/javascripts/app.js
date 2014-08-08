@@ -129,7 +129,7 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
                     return b.iterationCount;
                 }));
 
-            for (var it = 0; it < max; it++) {
+            for (var it = 0; it <= max; it++) {
                 stats[it] = {
                     "iteration": it,
                     "average": averageVote(ballots, it),
