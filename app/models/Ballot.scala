@@ -71,6 +71,6 @@ object Ballots {
   }
 
   def findByMoodlyId(moodlyId: String)(implicit s: Session): List[Ballot] = {
-      ballots.where(_.moodlyId === moodlyId).list
-    }
+    ballots.where(_.moodlyId === moodlyId).sortBy(_.iterationCount).list
+  }
 }
