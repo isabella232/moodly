@@ -73,14 +73,7 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
         $scope.alreadyVoted = alreadyVoted;
         $scope.moodlyId = moodlyId;
 
-        var Ballot = $resource('/rest/moodlies/:moodlyId/ballots', {moodlyId: moodlyId},
-                {
-                    get : {
-                      method: 'GET',
-                      isArray: true
-                    }
-                }
-        );
+        var Ballot = ballotResource($resource, moodlyId);
 
         Ballot.get(function(ballots) {
             var cIC = CookieService.get($routeParams.id).currentIterationCount;
@@ -111,10 +104,17 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
         }, 0));
     }
 
-    function StatsCtrl($scope, $routeParams, $resource) {
-        var moodlyId = $routeParams.id;
-        $scope.moodlyId = moodlyId;
-        var Ballot = $resource('/rest/moodlies/:moodlyId/ballots', {moodlyId: moodlyId},
+    function moodlyResource($resource, moodlyId) {
+        return $resource('/rest/moodlies/:moodlyId', {moodlyId: moodlyId},
+            {
+                get : {
+                    method: 'GET'
+                }
+            }
+        );
+    }
+    function ballotResource($resource, moodlyId) {
+        return $resource('/rest/moodlies/:moodlyId/ballots', {moodlyId: moodlyId},
             {
                 get : {
                     method: 'GET',
@@ -122,6 +122,13 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
                 }
             }
         );
+    }
+
+    function StatsCtrl($scope, $routeParams, $resource) {
+        var moodlyId = $routeParams.id;
+        $scope.moodlyId = moodlyId;
+        var Ballot = ballotResource($resource, moodlyId);
+        var Moddly = moodlyResource($resource, moodlyId);
 
         Ballot.get(function(ballots) {
             var stats = [],
@@ -137,6 +144,10 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
                 };
             }
             $scope.stats = stats;
+        });
+
+        Moddly.get(function(moodly) {
+            $scope.intervalDays = moodly.intervalDays;
         });
     }
 
