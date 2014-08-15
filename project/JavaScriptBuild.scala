@@ -2,7 +2,8 @@ import java.net.InetSocketAddress
 import sbt._
 import sbt.Keys._
 import play.PlayRunHook
-import play.Project._
+import play.Play.autoImport._
+import PlayKeys._
 import com.typesafe.sbt.packager.Keys._
 import scala.languageFeature.postfixOps
 
