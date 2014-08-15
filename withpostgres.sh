@@ -13,4 +13,6 @@ sbt \
 -Ddb.default.driver=org.postgresql.Driver \
 -Ddb.default.url="jdbc:postgresql://127.0.0.1:5432/moodly" \
 -Ddb.default.user=moodly \
--Ddb.default.password="moodly"
+-Ddb.default.password="moodly" \
+-DapplyEvolutions.default=true \
+"$@"
