@@ -2,7 +2,7 @@ package models
 
 import java.util.Date
 
-import org.joda.time.DateMidnight
+import org.joda.time.DateTime
 import play.api.db.slick.Config.driver.simple._
 import java.sql.Timestamp
 import tyrex.services.UUID
@@ -15,7 +15,7 @@ case class Moodly(id: String, start: Timestamp, intervalDays: Int) {
 
 object Moodly {
 
-  def dateBegin(): Date = new DateMidnight().toDate
+  def dateBegin(): Date = DateTime.now().withTimeAtStartOfDay().toDate
 
   implicit object MoodlyWrites extends Writes[Moodly] {
     override def writes(moodly: Moodly) = JsObject(Seq(
