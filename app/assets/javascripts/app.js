@@ -2,7 +2,7 @@
 
 // Declare here that angular is the US version - other locales can be easily substituted.
 
-define([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'underscorejs'], function (angular) {
+require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'underscorejs'], function (angular) {
 
     function MoodlyCtrl($scope, $http, $location) {
         console.log('MoodlyCtrl');
@@ -182,7 +182,7 @@ define([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'und
         };
     });
 
-    return angular.module('moodly').config(['$routeProvider', function ($routeProvider) {
+    angular.module('moodly').config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/', {
             templateUrl: 'partials/moodlies.html',
             controller: MoodlyCtrl,
@@ -210,6 +210,7 @@ define([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'und
         }).otherwise({redirectTo: '/'});
     }]);
 
+    angular.bootstrap(document, ['moodly']);
 
 
 });
