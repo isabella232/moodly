@@ -2,7 +2,7 @@
 
 // Declare here that angular is the US version - other locales can be easily substituted.
 
-require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'underscorejs'], function (angular) {
+define([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'underscorejs'], function (angular) {
 
     function MoodlyCtrl($scope, $http, $location) {
         console.log('MoodlyCtrl');
@@ -28,6 +28,7 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
             });
         };
     }
+    MoodlyCtrl.$inject = ['$scope', '$http', '$location'];
 
     function VotingCtrl($scope, $routeParams, $resource, $cookieStore, $window, CookieService) {
 
@@ -60,13 +61,17 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
 
     }
 
+    VotingCtrl.$inject = ['$scope', '$routeParams', '$resource', '$cookieStore', '$window', 'CookieService'];
+
     function AlreadyVotedCtrl($scope, $routeParams, $resource, CookieService) {
         VotedCtrlInternal($scope, $routeParams, $resource, CookieService, true)
     }
+    AlreadyVotedCtrl.$inject = ['$scope', '$routeParams', '$resource', 'CookieService'];
 
     function VotedCtrl($scope, $routeParams, $resource, CookieService) {
         VotedCtrlInternal($scope, $routeParams, $resource, CookieService, false)
     }
+    VotedCtrl.$inject = ['$scope', '$routeParams', '$resource', 'CookieService'];
 
     function VotedCtrlInternal($scope, $routeParams, $resource, CookieService, alreadyVoted) {
         var moodlyId = $routeParams.id;
@@ -157,6 +162,7 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
 
         });
     }
+    StatsCtrl.$inject = ['$scope', '$routeParams', '$resource', '$q'];
 
     function addDays(date, days) {
         var result = new Date(date);
@@ -167,10 +173,11 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
     function StatsConfigCtrl($scope, $routeParams, $resource) {
 
     }
+    StatsConfigCtrl.$inject = ['$scope', '$routeParams', '$resource'];
 
     angular.module('moodly', ['ngRoute', 'ngResource', 'ngCookies' ]);
 
-    angular.module('moodly').service('CookieService', function($cookieStore) {
+    function CookieService($cookieStore) {
         this.get = function(cookieName) {
             var cookieKey = "moodly-" + cookieName;
             return ($cookieStore.get(cookieKey)) ? JSON.parse($cookieStore.get(cookieKey)) : {};
@@ -180,9 +187,13 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
             var cookieKey = "moodly-" + cookieName;
             $cookieStore.put(cookieKey, JSON.stringify(data));
         };
-    });
+    }
+    CookieService.$inject = ['$cookieStore'];
 
-    angular.module('moodly').config(['$routeProvider', function ($routeProvider) {
+
+    angular.module('moodly').service('CookieService', CookieService);
+
+    return angular.module('moodly').config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/', {
             templateUrl: 'partials/moodlies.html',
             controller: MoodlyCtrl,
@@ -209,9 +220,6 @@ require([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'un
             reloadOnSearch: false
         }).otherwise({redirectTo: '/'});
     }]);
-
-    angular.bootstrap(document, ['moodly']);
-
 
 });
 
