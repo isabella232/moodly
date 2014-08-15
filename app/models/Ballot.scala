@@ -54,23 +54,23 @@ class Ballots(tag: Tag) extends Table[Ballot](tag, "ballot") {
 
   def vote = column[Int]("vote", O.NotNull)
 
-  def * = (id, moodlyId, cookieId, iterationCount, vote) <>((Ballot.apply _).tupled, Ballot.unapply _)
+  def * = (id, moodlyId, cookieId, iterationCount, vote) <> ((Ballot.apply _).tupled, Ballot.unapply)
 
   def moodly = foreignKey("moodly_fk", moodlyId, Moodlies.moodlies)(_.id)
 }
 
 object Ballots {
-  def ballots = TableQuery[Ballots]
+  val ballots = TableQuery[Ballots]
 
   def insert(ballot: Ballot)(implicit s: Session): Long = {
     ballots.returning(ballots.map(_.id)).insert(ballot)
   }
 
   def findById(id: Long)(implicit s: Session): Option[Ballot] = {
-    ballots.where(_.id === id).firstOption
+    ballots.filter(_.id === id).firstOption
   }
 
   def findByMoodlyId(moodlyId: String)(implicit s: Session): List[Ballot] = {
-    ballots.where(_.moodlyId === moodlyId).sortBy(_.iterationCount).list
+    ballots.filter(_.moodlyId === moodlyId).sortBy(_.iterationCount).list
   }
 }
