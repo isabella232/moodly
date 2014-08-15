@@ -1,9 +1,11 @@
 import models.{Ballots, Ballot, Moodlies, Moodly}
 import play.api._
+import play.api.mvc._
+import play.filters.gzip.GzipFilter
 
 import scala.util.Random
 
-object Global extends GlobalSettings {
+object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
 
   override def onStart(app: Application): Unit = {
 

@@ -9,6 +9,7 @@ scalaVersion := "2.11.2"
 libraryDependencies ++= Seq(
   jdbc,
   cache,
+  filters,
   "com.h2database" % "h2" % "1.3.170",
   "com.typesafe.play" %% "play-slick" % "0.8.0",
   "postgresql" % "postgresql" % "9.1-901-1.jdbc4",
