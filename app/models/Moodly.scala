@@ -10,6 +10,7 @@ import play.api.libs.json.{JsNumber, JsString, JsObject, Writes}
 
 case class Moodly(id: String, start: Timestamp, intervalDays: Int) {
   def this(intervalDays: Int) = this(UUID.create(), new Timestamp(Moodly.dateBegin().getTime), intervalDays)
+  def this(intervalDays: Int, start: DateTime) = this(UUID.create(), new Timestamp(start.withTimeAtStartOfDay().toDate.getTime), intervalDays)
   def currentIterationCount(date: Date = new Date()) = ((date.getTime - start.getTime) / (intervalDays * 1000 * 60 * 60 * 24)).toInt
 }
 

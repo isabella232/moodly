@@ -1,4 +1,5 @@
 import models.{Ballots, Ballot, Moodlies, Moodly}
+import org.joda.time.DateTime
 import play.api._
 import play.api.mvc._
 import play.filters.gzip.GzipFilter
@@ -12,7 +13,8 @@ object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
     if (app.mode == Mode.Dev) {
       Logger.debug("dev mode - populate the database to ease testing")
 
-      val moodly = new Moodly(2)
+      val twentyDaysAgo = DateTime.now().minusDays(20)
+      val moodly = new Moodly(intervalDays = 1, start = twentyDaysAgo)
       val moodlyId = moodly.id
 
       play.api.db.slick.DB(app).withTransaction { implicit session =>

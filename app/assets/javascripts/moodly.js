@@ -35,8 +35,8 @@ define([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'und
         $scope.moodlyId = $routeParams.id;
 
         $resource('/rest/moodlies/:moodlyId/currentIterationCount', {moodlyId:$routeParams.id}).get(function(data) {
-            var currentIterationCount = data[0];
-            console.log("currentIterationCount=" + currentIterationCount);
+            var currentIterationCount = data.currentIterationCount;
+            console.log("currentIterationCount=", currentIterationCount);
             var cookieKey = "moodly-" + $routeParams.id;
             var cookie = ($cookieStore.get(cookieKey)) ? JSON.parse($cookieStore.get(cookieKey)) : {};
             console.log(cookie);
@@ -50,7 +50,7 @@ define([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'und
                     var cookieId = Math.random();
                     var Ballot = $resource('/rest/moodlies/:moodlyId/ballots', {moodlyId: $routeParams.id}, {});
 
-                    CookieService.put($routeParams.id, {cookieId: cookieId, ballot: ballot, currentIterationCount: parseInt(data[0], 10)});
+                    CookieService.put($routeParams.id, {cookieId: cookieId, ballot: ballot, currentIterationCount: currentIterationCount});
 
                     Ballot.save({cookieId: cookieId.toString(), vote: ballot});
                     console.log(ballot);
@@ -83,7 +83,7 @@ define([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'und
 
         Ballot.get(function(ballots) {
             var cIC = CookieService.get($routeParams.id).currentIterationCount;
-            console.log(ballots);
+            console.log(cIC, ballots);
             // calculate the average for one iteration
             $scope.avg = averageVote(ballots, cIC);
 
