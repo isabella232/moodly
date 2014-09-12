@@ -29,7 +29,7 @@ object MoodlyResource extends Controller {
 
   def currentIterationCounter(id : String) = DBAction { implicit request =>
       Moodlies.findById(id).map { moodly:Moodly =>
-        Ok(Json.toJson(moodly.currentIterationCount))
+        Ok(Json.toJson(moodly.currentIterationCount()))
       }.getOrElse {
         NotFound(Json.toJson("Moodly not found"))
       }

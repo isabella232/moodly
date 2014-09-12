@@ -11,7 +11,7 @@ object BallotResource extends Controller {
   def create(moodlyId: String) = DBAction(parse.json) {
     implicit request =>
       Moodlies.findById(moodlyId).map { moodly =>
-          val iC = moodly.currentIterationCount
+          val iC = moodly.currentIterationCount()
           Json.fromJson[Ballot](request.body).asOpt.map { ballot =>
             val ballotId = Ballots.insert(Ballot(0, moodlyId, ballot.cookieId, iC, ballot.vote))
             Ok(Json.toJson(Ballot(ballotId, moodlyId, ballot.cookieId, iC, ballot.vote)))
