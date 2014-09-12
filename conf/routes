@@ -6,13 +6,13 @@
 GET         /                                               controllers.Application.index
 
 POST        /rest/moodlies                                  controllers.MoodlyResource.create
-GET         /rest/moodlies/:id                              controllers.MoodlyResource.findById(id)
-GET         /rest/moodlies/:id/currentIterationCount        controllers.MoodlyResource.currentIterationCounter(id)
+GET         /rest/moodlies/:moodlyId                        controllers.MoodlyResource.findById(moodlyId)
+GET         /rest/moodlies/:moodlyId/currentIterationCount  controllers.MoodlyResource.currentIterationCounter(moodlyId)
 
 POST        /rest/moodlies/:moodlyId/ballots                controllers.BallotResource.create(moodlyId)
 GET         /rest/moodlies/:moodlyId/ballots                controllers.BallotResource.findByMoodlyId(moodlyId)
 
-GET         /rest/moodlies/:moodlyId/ballots/:id            controllers.BallotResource.findById(moodlyId, id)
+GET         /rest/moodlies/:moodlyId/ballots/:ballotId      controllers.BallotResource.findById(moodlyId, ballotId)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /*file                                          controllers.Assets.versioned(path="/public", file: Asset)
