@@ -152,8 +152,8 @@ define([ 'angular', 'angular-route', 'angular-resource', 'angular-cookies', 'und
             for (var it = 0; it <= max; it++) {
                 stats[it] = {
                     "iteration": it,
-                    "startDate": addDays(start, (it - 1) * moodly.intervalDays),
-                    "endDate": addDays(start, it * moodly.intervalDays),
+                    "startDate": addDays(start, it * moodly.intervalDays),
+                    "endDate": addDays(start, (it + 1) * moodly.intervalDays - 1),
                     "average": averageVote(ballots, it),
                     "personsCount": numberOfPersonForIteration(ballots, it)
                 };
