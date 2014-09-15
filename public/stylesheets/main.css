@@ -25,6 +25,12 @@
     margin-right: 15px;
 }
 
+.smallfaces img {
+    width: 50px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 .voted {
     text-align: center;
 }

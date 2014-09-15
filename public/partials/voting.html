@@ -1,11 +1,23 @@
 <div class="voting">
-    <h2>Wie fühlst du dich heute?</h2>
+    <div class="row">
+        <h2>Wie fühlst du dich heute?</h2>
+    </div>
 
-    <button title="klicke jetzt für 1" ng-click="vote(1)"><img src="/images/1-frustrated.png"></button>
-    <button title="klicke jetzt für 2" ng-click="vote(2)"><img src="/images/2-sad.png"></button>
-    <button title="klicke jetzt für 3" ng-click="vote(3)"><img src="/images/3-neutral.png"></button>
-    <button title="klicke jetzt für 4" ng-click="vote(4)"><img src="/images/4-fine.png"></button>
-    <button title="klicke jetzt für 5" ng-click="vote(5)"><img src="/images/5-happy.png"></button>
+    <div class="row hidden-xs">
+        <button title="klicke jetzt für 1" ng-click="vote(1)"><img src="/images/1-frustrated.png"></button>
+        <button title="klicke jetzt für 2" ng-click="vote(2)"><img src="/images/2-sad.png"></button>
+        <button title="klicke jetzt für 3" ng-click="vote(3)"><img src="/images/3-neutral.png"></button>
+        <button title="klicke jetzt für 4" ng-click="vote(4)"><img src="/images/4-fine.png"></button>
+        <button title="klicke jetzt für 5" ng-click="vote(5)"><img src="/images/5-happy.png"></button>
+    </div>
+
+    <div class="row visible-xs-block smallfaces">
+        <button title="klicke jetzt für 1" ng-click="vote(1)"><img src="/images/1-frustrated.png"></button>
+        <button title="klicke jetzt für 2" ng-click="vote(2)"><img src="/images/2-sad.png"></button>
+        <button title="klicke jetzt für 3" ng-click="vote(3)"><img src="/images/3-neutral.png"></button>
+        <button title="klicke jetzt für 4" ng-click="vote(4)"><img src="/images/4-fine.png"></button>
+        <button title="klicke jetzt für 5" ng-click="vote(5)"><img src="/images/5-happy.png"></button>
+    </div>
 </div>
 
 <p style="margin-top: 50px; text-align: left; width: 50%; float: left">

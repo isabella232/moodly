@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick" % "0.8.0",
   "postgresql" % "postgresql" % "9.1-901-1.jdbc4",
   // WebJars (i.e. client-side) dependencies
-  "org.webjars" % "bootstrap" % "3.1.1-2" exclude("org.webjars", "jquery"),
+  "org.webjars" % "bootstrap" % "3.2.0" exclude("org.webjars", "jquery"),
   "org.webjars" % "requirejs" % "2.1.14-1",
   "org.webjars" % "underscorejs" % "1.6.0-3",
   "org.webjars" % "angularjs" % "1.2.18",
